@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="metricEntries">
+        <item>Celsius</item>
+        <item>Fahrenheit</item>
+        <item>Kelvin</item>
+        <item>Rakine</item>
+    </string-array>
+    <string-array name="metricValues">
+        <item>metric</item>
+        <item>imperial</item>
+        <item>kelvin</item>
+        <item>rakine</item>
+    </string-array>
+
+</resources>

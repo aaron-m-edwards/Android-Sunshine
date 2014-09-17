@@ -1,0 +1,13 @@
+<resources>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="location">Location</string>
+    <string name="pref_location_key" translatable="false">location</string>
+    <string name="pref_location_summary">Melbourne, Australia</string>
+    <string name="pref_default_location">Melbourne, Australia</string>
+
+    <string name="unit">Metric</string>
+    <string name="pref_unit_key" translatable="false">metric</string>
+    <string name="pref_unit_summary">Celsius</string>
+    <string name="pref_default_unit">Celsius</string>
+</resources>

@@ -1,7 +1,9 @@
 package com.aedwards.sunshine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,15 +14,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by aaron on 24/08/2014.
  */
 public class ForecastFragment extends Fragment{
+
+    private SharedPreferences preferences;
 
     private ArrayAdapter<String> weekAdaptor;
 
@@ -34,8 +36,26 @@ public class ForecastFragment extends Fragment{
         inflater.inflate(R.menu.fragmentforecast, menu);
     }
 
+    @Override
+    public void onStart() {
+        updateWeather();
+        super.onStart();
+    }
+
+    private void updateWeather() {
+        new FetchWeatherTask(weekAdaptor).execute(getLocation(), getUnits());
+    }
+
+    private String getLocation() {
+        return preferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_default_location));
+    }
+    private String getUnits() {
+        return preferences.getString(getString(R.string.pref_unit_key), getString(R.string.pref_default_unit));
+    }
+
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         setHasOptionsMenu(true);
 
         View rootView = inflater.inflate(R.layout.fragment_sunshine, container, false);
@@ -56,7 +76,6 @@ public class ForecastFragment extends Fragment{
                 startActivity(intent);
             }
         });
-        new FetchWeatherTask(weekAdaptor).execute("Melbourne");
 
         return rootView;
     }
@@ -66,7 +85,7 @@ public class ForecastFragment extends Fragment{
 
         switch (item.getItemId()){
             case R.id.action_refresh:
-                new FetchWeatherTask(weekAdaptor).execute("Melbourne");
+                updateWeather();
         }
 
         return super.onOptionsItemSelected(item);

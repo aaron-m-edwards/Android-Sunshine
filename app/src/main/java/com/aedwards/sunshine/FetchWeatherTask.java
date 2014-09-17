@@ -36,6 +36,9 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]>{
         BufferedReader reader = null;
         String [] weatherData = new String[0];
 
+        String location = strings[0];
+        String unit = strings[1];
+
         try {
             // Construct the URL for the OpenWeatherMap query
             // Possible parameters are avaiable at OWM's forecast API page, at
@@ -47,9 +50,9 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]>{
                     .appendPath("2.5")
                     .appendPath("forecast")
                     .appendPath("daily")
-                    .appendQueryParameter("q", strings[0])
+                    .appendQueryParameter("q", location)
                     .appendQueryParameter("mode", "json")
-                    .appendQueryParameter("units", "metric")
+                    .appendQueryParameter("units", unit)
                     .appendQueryParameter("cnt", String.valueOf(DAYS))
                     .build();
             // Create the request to OpenWeatherMap, and open the connection
@@ -81,10 +84,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]>{
 
             String jsonString = buffer.toString();
             weatherData = WeatherDataParser.getWeatherDataFromJson(jsonString, DAYS);
-
-            for (String data : weatherData){
-                Log.i(LOG_TAG, data);
-            }
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, "JSON parse Error ", e);
